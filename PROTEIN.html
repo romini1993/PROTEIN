@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protein Minas - Dark Mode</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f172a; 
+            color: #f8fafc;
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+        }
+        .container { 
+            background: #1e293b; 
+            width: 90%; 
+            max-width: 400px; 
+            padding: 25px; 
+            border-radius: 24px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+        }
+        h2 { text-align: center; color: #38bdf8; margin-top: 0; margin-bottom: 25px; font-size: 24px; }
+        .input-group { margin-bottom: 15px; }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #94a3b8;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            border: 2px solid #334155; 
+            border-radius: 12px; 
+            font-size: 18px;
+            transition: 0.3s;
+            outline: none;
+            background: #0f172a;
+            color: #f8fafc;
+        }
+        input:focus { 
+            border-color: #38bdf8; 
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+        .result-card { 
+            background: linear-gradient(135deg, #0ea5e9, #2563eb); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 20px; 
+            text-align: center; 
+            margin-top: 25px;
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
+        }
+        .total-val { font-size: 45px; font-weight: 800; display: block; }
+        .unit { font-size: 14px; text-transform: uppercase; font-weight: bold; opacity: 0.9; letter-spacing: 1px; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #64748b; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🍗 Protein Minas</h2>
+    
+    <div class="input-group">
+        <label>Dada Ayam (Gram)</label>
+        <input type="number" id="ayam" placeholder="0" oninput="hitung()">
+    </div>
+    
+    <div class="input-group">
+        <label>Telur (Butir)</label>
+        <input type="number" id="telur" placeholder="0" oninput="hitung()">
+    </div>
+    
+    <div class="input-group">
+        <label>Tempe (Gram)</label>
+        <input type="number" id="tempe" placeholder="0" oninput="hitung()">
+    </div>
+    
+    <div class="input-group">
+        <label>Tahu (Gram)</label>
+        <input type="number" id="tahu" placeholder="0" oninput="hitung()">
+    </div>
+
+    <div class="result-card">
+        <span class="unit">Total Asupan Protein</span>
+        <span class="total-val" id="total">0</span>
+        <span class="unit">gram</span>
+    </div>
+
+    <p class="footer"> Minas Health Tracker v1.0</p>
+</div>
+
+<script>
+    function hitung() {
+        const ayam = (document.getElementById('ayam').value || 0) * 0.31;
+        const telur = (document.getElementById('telur').value || 0) * 6;
+        const tempe = (document.getElementById('tempe').value || 0) * 0.19;
+        const tahu = (document.getElementById('tahu').value || 0) * 0.08;
+
+        const grandTotal = ayam + telur + tempe + tahu;
+        // Pembulatan 1 desimal agar tetap presisi
+        document.getElementById('total').innerText = grandTotal.toLocaleString('id-ID', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 1
+        });
+    }
+</script>
+
+</body>
+</html>
