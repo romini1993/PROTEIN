@@ -2,101 +2,127 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calc Protein</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Calc Protein Pro</title>
 
     <link rel="manifest" href="manifest-protein.json">
-    
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Calc Protein">
-    <meta name="apple-mobile-web-app-title" content="Calc Protein">
     <meta name="theme-color" content="#0f172a">
-    <meta name="msapplication-navbutton-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
-        * { box-sizing: border-box; }
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text: #f8fafc;
+            --subtext: #94a3b8;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             font-family: 'Segoe UI', sans-serif; 
-            background: #0f172a; 
-            color: #f8fafc;
+            background: var(--bg); 
+            color: var(--text);
             margin: 0; 
             display: flex; 
             justify-content: center; 
-            align-items: center; 
             min-height: 100vh;
             padding: 20px;
         }
         .container { 
-            background: #1e293b; 
             width: 100%; 
             max-width: 400px; 
             padding: 25px; 
+            background: var(--card);
             border-radius: 24px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             border: 1px solid #334155;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            height: fit-content;
         }
-        h2 { text-align: center; color: #38bdf8; margin-bottom: 25px; font-size: 24px; }
+        h2 { text-align: center; color: var(--accent); margin-bottom: 25px; font-size: 24px; }
         
-        .input-group { margin-bottom: 15px; }
+        .input-group { margin-bottom: 18px; }
         label { 
             display: block; 
             margin-bottom: 8px; 
             font-weight: 600; 
-            color: #94a3b8;
-            font-size: 14px;
+            color: var(--subtext);
+            font-size: 13px;
+            text-transform: uppercase;
         }
         input { 
             width: 100%; 
-            padding: 12px; 
-            background: #0f172a;
+            padding: 14px; 
+            background: var(--bg);
             border: 2px solid #334155; 
             border-radius: 12px; 
-            font-size: 16px;
+            font-size: 18px;
             color: white;
-            transition: 0.3s;
+            font-weight: bold;
             outline: none;
+            transition: 0.3s;
         }
-        input:focus { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+        input:focus { border-color: var(--accent); }
         
         .result-card { 
             background: linear-gradient(135deg, #0ea5e9, #2563eb); 
             color: white; 
             padding: 20px; 
-            border-radius: 18px; 
+            border-radius: 20px; 
             text-align: center; 
-            margin-top: 25px;
+            margin-top: 10px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .total-val { font-size: 45px; font-weight: bold; display: block; margin: 5px 0; }
-        .unit { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
-        .footer { text-align: center; margin-top: 20px; font-size: 11px; color: #64748b; letter-spacing: 0.5px; }
+        .total-val { font-size: 48px; font-weight: bold; display: block; margin: 2px 0; }
+        .unit { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; font-weight: bold; }
+        
+        .action-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-share { background: #22c55e; color: white; }
+        .btn-reset { background: #ef4444; color: white; }
+        
+        .footer { text-align: center; margin-top: 25px; font-size: 11px; color: #64748b; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🍗 Calc Protein</h2>
+    <h2>🍗 Calc Protein Pro</h2>
     
     <div class="input-group">
         <label>Dada Ayam (Gram)</label>
-        <input type="number" id="ayam" placeholder="0" oninput="hitung()">
+        <input type="number" id="ayam" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
     
     <div class="input-group">
         <label>Telur (Butir)</label>
-        <input type="number" id="telur" placeholder="0" oninput="hitung()">
+        <input type="number" id="telur" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
     
     <div class="input-group">
         <label>Tempe (Gram)</label>
-        <input type="number" id="tempe" placeholder="0" oninput="hitung()">
+        <input type="number" id="tempe" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
     
     <div class="input-group">
         <label>Tahu (Gram)</label>
-        <input type="number" id="tahu" placeholder="0" oninput="hitung()">
+        <input type="number" id="tahu" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
 
     <div class="result-card">
@@ -105,21 +131,82 @@
         <span class="unit">gram</span>
     </div>
 
-    <p class="footer">PRO TRACKER EDITION</p>
+    <div class="action-btns">
+        <button class="btn btn-reset" onclick="resetForm()">🔄 Reset</button>
+        <button class="btn btn-share" onclick="shareData()">📤 Kirim</button>
+    </div>
+
+    <p class="footer">PROTEIN TRACKER • GACOR EDITION</p>
 </div>
 
 <script>
-    function hitung() {
-        const ayam = (document.getElementById('ayam').value || 0) * 0.31;
-        const telur = (document.getElementById('telur').value || 0) * 6;
-        const tempe = (document.getElementById('tempe').value || 0) * 0.19;
-        const tahu = (document.getElementById('tahu').value || 0) * 0.08;
+    // Load data pas aplikasi dibuka
+    window.onload = function() {
+        const saved = JSON.parse(localStorage.getItem('protein_data'));
+        if (saved) {
+            document.getElementById('ayam').value = saved.ayam || "";
+            document.getElementById('telur').value = saved.telur || "";
+            document.getElementById('tempe').value = saved.tempe || "";
+            document.getElementById('tahu').value = saved.tahu || "";
+            hitung();
+        }
+    }
 
-        const grandTotal = ayam + telur + tempe + tahu;
+    function hitung() {
+        const a = parseFloat(document.getElementById('ayam').value) || 0;
+        const b = parseFloat(document.getElementById('telur').value) || 0;
+        const c = parseFloat(document.getElementById('tempe').value) || 0;
+        const d = parseFloat(document.getElementById('tahu').value) || 0;
+
+        const proteinAyam = a * 0.31;
+        const proteinTelur = b * 6;
+        const proteinTempe = c * 0.19;
+        const proteinTahu = d * 0.08;
+
+        const grandTotal = proteinAyam + proteinTelur + proteinTempe + proteinTahu;
+        
         document.getElementById('total').innerText = grandTotal.toLocaleString('id-ID', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 1
         });
+
+        // Simpan data biar ga ilang
+        const data = { ayam: a, telur: b, tempe: c, tahu: d };
+        localStorage.setItem('protein_data', JSON.stringify(data));
+    }
+
+    function resetForm() {
+        if(confirm("Reset semua inputan?")) {
+            document.querySelectorAll('input').forEach(i => i.value = "");
+            document.getElementById('total').innerText = "0";
+            localStorage.removeItem('protein_data');
+        }
+    }
+
+    function shareData() {
+        const a = document.getElementById('ayam').value || 0;
+        const b = document.getElementById('telur').value || 0;
+        const c = document.getElementById('tempe').value || 0;
+        const d = document.getElementById('tahu').value || 0;
+        const total = document.getElementById('total').innerText;
+
+        const teks = `🍗 *Laporan Protein Hari Ini* 🍗\n\n` +
+                     `- Dada Ayam: ${a}g\n` +
+                     `- Telur: ${b} butir\n` +
+                     `- Tempe: ${c}g\n` +
+                     `- Tahu: ${d}g\n\n` +
+                     `*Total Protein: ${total} gram*\n` +
+                     `Pokonya siap makan, Bro! 🚀`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: 'Calc Protein',
+                text: teks
+            }).catch(console.error);
+        } else {
+            // Fallback kalau browser ga dukung share (buka WA web)
+            window.open(`https://wa.me/?text=${encodeURIComponent(teks)}`, '_blank');
+        }
     }
 </script>
 
