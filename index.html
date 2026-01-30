@@ -41,22 +41,22 @@
         }
         h2 { text-align: center; color: var(--accent); margin-bottom: 25px; font-size: 24px; }
         
-        .input-group { margin-bottom: 15px; }
+        .input-group { margin-bottom: 18px; }
         label { 
             display: block; 
-            margin-bottom: 6px; 
+            margin-bottom: 8px; 
             font-weight: 600; 
             color: var(--subtext);
-            font-size: 11px;
+            font-size: 13px;
             text-transform: uppercase;
         }
         input { 
             width: 100%; 
-            padding: 12px; 
+            padding: 14px; 
             background: var(--bg);
             border: 2px solid #334155; 
             border-radius: 12px; 
-            font-size: 16px;
+            font-size: 18px;
             color: white;
             font-weight: bold;
             outline: none;
@@ -70,7 +70,7 @@
             padding: 20px; 
             border-radius: 20px; 
             text-align: center; 
-            margin-top: 15px;
+            margin-top: 10px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         .total-val { font-size: 48px; font-weight: bold; display: block; margin: 2px 0; }
@@ -98,13 +98,6 @@
         .btn-reset { background: #ef4444; color: white; }
         
         .footer { text-align: center; margin-top: 25px; font-size: 11px; color: #64748b; font-weight: bold; }
-        
-        /* Grid styling biar rapi */
-        .grid-input {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
     </style>
 </head>
 <body>
@@ -112,40 +105,38 @@
 <div class="container">
     <h2>🍗 Calc Protein Pro</h2>
     
-    <div class="grid-input">
-        <div class="input-group">
-            <label>Ayam (g)</label>
-            <input type="number" id="ayam" inputmode="decimal" placeholder="0" oninput="hitung()">
-        </div>
-        <div class="input-group">
-            <label>Telur (btr)</label>
-            <input type="number" id="telur" inputmode="decimal" placeholder="0" oninput="hitung()">
-        </div>
+    <div class="input-group">
+        <label>Dada Ayam (Gram)</label>
+        <input type="number" id="ayam" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
     
-    <div class="grid-input">
-        <div class="input-group">
-            <label>Tempe (g)</label>
-            <input type="number" id="tempe" inputmode="decimal" placeholder="0" oninput="hitung()">
-        </div>
-        <div class="input-group">
-            <label>Tahu (g)</label>
-            <input type="number" id="tahu" inputmode="decimal" placeholder="0" oninput="hitung()">
-        </div>
+    <div class="input-group">
+        <label>Telur (Butir)</label>
+        <input type="number" id="telur" inputmode="decimal" placeholder="0" oninput="hitung()">
+    </div>
+    
+    <div class="input-group">
+        <label>Tempe (Gram)</label>
+        <input type="number" id="tempe" inputmode="decimal" placeholder="0" oninput="hitung()">
+    </div>
+    
+    <div class="input-group">
+        <label>Tahu (Gram)</label>
+        <input type="number" id="tahu" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
 
     <div class="input-group">
-        <label>Ikan Kembung (g)</label>
+        <label>Ikan Kembung (Gram)</label>
         <input type="number" id="kembung" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
 
     <div class="input-group">
-        <label>Ikan Tongkol (g)</label>
+        <label>Ikan Tongkol (Gram)</label>
         <input type="number" id="tongkol" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
 
     <div class="input-group">
-        <label>Daging Sapi (g)</label>
+        <label>Daging Sapi (Gram)</label>
         <input type="number" id="sapi" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
 
@@ -179,15 +170,13 @@
     }
 
     function hitung() {
-        const getVal = (id) => parseFloat(document.getElementById(id).value) || 0;
-
-        const a = getVal('ayam');
-        const b = getVal('telur');
-        const c = getVal('tempe');
-        const d = getVal('tahu');
-        const e = getVal('kembung');
-        const f = getVal('tongkol');
-        const g = getVal('sapi');
+        const a = parseFloat(document.getElementById('ayam').value) || 0;
+        const b = parseFloat(document.getElementById('telur').value) || 0;
+        const c = parseFloat(document.getElementById('tempe').value) || 0;
+        const d = parseFloat(document.getElementById('tahu').value) || 0;
+        const e = parseFloat(document.getElementById('kembung').value) || 0;
+        const f = parseFloat(document.getElementById('tongkol').value) || 0;
+        const g = parseFloat(document.getElementById('sapi').value) || 0;
 
         const totalP = (a * 0.31) + (b * 6) + (c * 0.19) + (d * 0.08) + (e * 0.22) + (f * 0.24) + (g * 0.24);
         
@@ -209,7 +198,7 @@
     }
 
     function shareData() {
-        const getVal = (id) => document.getElementById(id).value || 0;
+        const getV = (id) => document.getElementById(id).value || 0;
         const total = document.getElementById('total').innerText;
 
         const sekarang = new Date();
@@ -217,13 +206,13 @@
         const wkt = sekarang.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
 
         let rincian = "";
-        if(getVal('ayam') > 0) rincian += `• Ayam: ${getVal('ayam')}g\n`;
-        if(getVal('telur') > 0) rincian += `• Telur: ${getVal('telur')} btr\n`;
-        if(getVal('tempe') > 0) rincian += `• Tempe: ${getVal('tempe')}g\n`;
-        if(getVal('tahu') > 0) rincian += `• Tahu: ${getVal('tahu')}g\n`;
-        if(getVal('kembung') > 0) rincian += `• Ikan Kembung: ${getVal('kembung')}g\n`;
-        if(getVal('tongkol') > 0) rincian += `• Ikan Tongkol: ${getVal('tongkol')}g\n`;
-        if(getVal('sapi') > 0) rincian += `• Daging Sapi: ${getVal('sapi')}g\n`;
+        if(getV('ayam') > 0) rincian += `• Dada Ayam: ${getV('ayam')}g\n`;
+        if(getV('telur') > 0) rincian += `• Telur: ${getV('telur')} butir\n`;
+        if(getV('tempe') > 0) rincian += `• Tempe: ${getV('tempe')}g\n`;
+        if(getV('tahu') > 0) rincian += `• Tahu: ${getV('tahu')}g\n`;
+        if(getV('kembung') > 0) rincian += `• Ikan Kembung: ${getV('kembung')}g\n`;
+        if(getV('tongkol') > 0) rincian += `• Ikan Tongkol: ${getV('tongkol')}g\n`;
+        if(getV('sapi') > 0) rincian += `• Daging Sapi: ${getV('sapi')}g\n`;
 
         const teks = `🍗 *LAPORAN ASUPAN PROTEIN* 🍗\n` +
                      `📅 _${tgl} | ${wkt} WIB_\n\n` +
