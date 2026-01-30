@@ -140,7 +140,6 @@
 </div>
 
 <script>
-    // Load data pas aplikasi dibuka
     window.onload = function() {
         const saved = JSON.parse(localStorage.getItem('protein_data'));
         if (saved) {
@@ -170,7 +169,6 @@
             maximumFractionDigits: 1
         });
 
-        // Simpan data biar ga ilang
         const data = { ayam: a, telur: b, tempe: c, tahu: d };
         localStorage.setItem('protein_data', JSON.stringify(data));
     }
@@ -190,13 +188,18 @@
         const d = document.getElementById('tahu').value || 0;
         const total = document.getElementById('total').innerText;
 
-        const teks = `🍗 *Laporan Protein Hari Ini* 🍗\n\n` +
-                     `- Dada Ayam: ${a}g\n` +
-                     `- Telur: ${b} butir\n` +
-                     `- Tempe: ${c}g\n` +
-                     `- Tahu: ${d}g\n\n` +
-                     `*Total Protein: ${total} gram*\n` +
-                     `Pokonya siap makan, Bro! 🚀`;
+        // Ambil hari dan tanggal sekarang
+        const opsi = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const tanggalSkrg = new Date().toLocaleDateString('id-ID', opsi);
+
+        const teks = `🍗 *LAPORAN ASUPAN PROTEIN* 🍗\n` +
+                     `📅 _${tanggalSkrg}_\n\n` +
+                     `• Dada Ayam: ${a} gram\n` +
+                     `• Telur: ${b} butir\n` +
+                     `• Tempe: ${c} gram\n` +
+                     `• Tahu: ${d} gram\n\n` +
+                     `*Total Protein: ${total} gram*\n\n` +
+                     `Data sudah tercatat sesuai timbangan.`;
 
         if (navigator.share) {
             navigator.share({
@@ -204,7 +207,6 @@
                 text: teks
             }).catch(console.error);
         } else {
-            // Fallback kalau browser ga dukung share (buka WA web)
             window.open(`https://wa.me/?text=${encodeURIComponent(teks)}`, '_blank');
         }
     }
