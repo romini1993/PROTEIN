@@ -188,12 +188,16 @@
         const d = document.getElementById('tahu').value || 0;
         const total = document.getElementById('total').innerText;
 
-        // Ambil hari dan tanggal sekarang
-        const opsi = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const tanggalSkrg = new Date().toLocaleDateString('id-ID', opsi);
+        // Ambil hari, tanggal, dan waktu sekarang
+        const sekarang = new Date();
+        const opsiTanggal = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const opsiWaktu = { hour: '2-digit', minute: '2-digit', hour12: false };
+        
+        const tgl = sekarang.toLocaleDateString('id-ID', opsiTanggal);
+        const wkt = sekarang.toLocaleTimeString('id-ID', opsiWaktu);
 
         const teks = `🍗 *LAPORAN ASUPAN PROTEIN* 🍗\n` +
-                     `📅 _${tanggalSkrg}_\n\n` +
+                     `📅 _${tgl} | ${wkt} WIB_\n\n` +
                      `• Dada Ayam: ${a} gram\n` +
                      `• Telur: ${b} butir\n` +
                      `• Tempe: ${c} gram\n` +
