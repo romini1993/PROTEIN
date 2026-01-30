@@ -11,21 +11,21 @@
     <style>
         :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; --subtext: #94a3b8; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; min-height: 100vh; padding: 10px; }
-        .container { width: 100%; max-width: 400px; padding: 15px; background: var(--card); border-radius: 20px; border: 1px solid #334155; height: fit-content; align-self: center; }
-        h2 { text-align: center; color: var(--accent); margin: 0 0 15px 0; font-size: 20px; }
-        .input-group { margin-bottom: 8px; }
-        label { display: block; margin-bottom: 4px; font-weight: 600; color: var(--subtext); font-size: 11px; text-transform: uppercase; }
-        input { width: 100%; padding: 10px; background: var(--bg); border: 2px solid #334155; border-radius: 10px; font-size: 16px; color: white; font-weight: bold; outline: none; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; min-height: 100vh; padding: 15px; }
+        .container { width: 100%; max-width: 400px; padding: 20px; background: var(--card); border-radius: 22px; border: 1px solid #334155; height: fit-content; align-self: center; }
+        h2 { text-align: center; color: var(--accent); margin: 0 0 18px 0; font-size: 22px; }
+        .input-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--subtext); font-size: 12px; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; background: var(--bg); border: 2px solid #334155; border-radius: 12px; font-size: 17px; color: white; font-weight: bold; outline: none; }
         input:focus { border-color: var(--accent); }
-        .result-card { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; padding: 12px; border-radius: 15px; text-align: center; margin-top: 10px; }
-        .total-val { font-size: 36px; font-weight: bold; display: block; }
-        .unit { font-size: 11px; text-transform: uppercase; opacity: 0.9; font-weight: bold; }
-        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-        .btn { padding: 10px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .result-card { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; padding: 15px; border-radius: 18px; text-align: center; margin-top: 15px; box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
+        .total-val { font-size: 40px; font-weight: bold; display: block; line-height: 1; margin: 5px 0; }
+        .unit { font-size: 12px; text-transform: uppercase; opacity: 0.9; font-weight: bold; }
+        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+        .btn { padding: 12px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-share { background: #22c55e; color: white; }
         .btn-reset { background: #ef4444; color: white; }
-        .footer { text-align: center; margin-top: 12px; font-size: 9px; color: #64748b; font-weight: bold; }
+        .footer { text-align: center; margin-top: 18px; font-size: 10px; color: #64748b; font-weight: bold; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -64,13 +64,8 @@
         }
     }
     function hitung() {
-        const a = parseFloat(document.getElementById('ayam').value) || 0;
-        const b = parseFloat(document.getElementById('telur').value) || 0;
-        const c = parseFloat(document.getElementById('tempe').value) || 0;
-        const d = parseFloat(document.getElementById('tahu').value) || 0;
-        const e = parseFloat(document.getElementById('kembung').value) || 0;
-        const f = parseFloat(document.getElementById('tongkol').value) || 0;
-        const g = parseFloat(document.getElementById('sapi').value) || 0;
+        const getVal = (id) => parseFloat(document.getElementById(id).value) || 0;
+        const a = getVal('ayam'), b = getVal('telur'), c = getVal('tempe'), d = getVal('tahu'), e = getVal('kembung'), f = getVal('tongkol'), g = getVal('sapi');
         const totalP = (a * 0.31) + (b * 6) + (c * 0.19) + (d * 0.08) + (e * 0.22) + (f * 0.24) + (g * 0.24);
         document.getElementById('total').innerText = totalP.toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 1 });
         const data = { ayam: a, telur: b, tempe: c, tahu: d, kembung: e, tongkol: f, sapi: g };
