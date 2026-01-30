@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Calc Protein Pro</title>
+    <title>Calc Protein Pro v3</title>
 
     <link rel="manifest" href="manifest-protein.json">
     <meta name="theme-color" content="#0f172a">
@@ -41,22 +41,22 @@
         }
         h2 { text-align: center; color: var(--accent); margin-bottom: 25px; font-size: 24px; }
         
-        .input-group { margin-bottom: 18px; }
+        .input-group { margin-bottom: 15px; }
         label { 
             display: block; 
-            margin-bottom: 8px; 
+            margin-bottom: 6px; 
             font-weight: 600; 
             color: var(--subtext);
-            font-size: 13px;
+            font-size: 11px;
             text-transform: uppercase;
         }
         input { 
             width: 100%; 
-            padding: 14px; 
+            padding: 12px; 
             background: var(--bg);
             border: 2px solid #334155; 
             border-radius: 12px; 
-            font-size: 18px;
+            font-size: 16px;
             color: white;
             font-weight: bold;
             outline: none;
@@ -70,7 +70,7 @@
             padding: 20px; 
             border-radius: 20px; 
             text-align: center; 
-            margin-top: 10px;
+            margin-top: 15px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         .total-val { font-size: 48px; font-weight: bold; display: block; margin: 2px 0; }
@@ -98,6 +98,13 @@
         .btn-reset { background: #ef4444; color: white; }
         
         .footer { text-align: center; margin-top: 25px; font-size: 11px; color: #64748b; font-weight: bold; }
+        
+        /* Grid styling biar rapi */
+        .grid-input {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
@@ -105,24 +112,41 @@
 <div class="container">
     <h2>🍗 Calc Protein Pro</h2>
     
-    <div class="input-group">
-        <label>Dada Ayam (Gram)</label>
-        <input type="number" id="ayam" inputmode="decimal" placeholder="0" oninput="hitung()">
+    <div class="grid-input">
+        <div class="input-group">
+            <label>Ayam (g)</label>
+            <input type="number" id="ayam" inputmode="decimal" placeholder="0" oninput="hitung()">
+        </div>
+        <div class="input-group">
+            <label>Telur (btr)</label>
+            <input type="number" id="telur" inputmode="decimal" placeholder="0" oninput="hitung()">
+        </div>
     </div>
     
-    <div class="input-group">
-        <label>Telur (Butir)</label>
-        <input type="number" id="telur" inputmode="decimal" placeholder="0" oninput="hitung()">
+    <div class="grid-input">
+        <div class="input-group">
+            <label>Tempe (g)</label>
+            <input type="number" id="tempe" inputmode="decimal" placeholder="0" oninput="hitung()">
+        </div>
+        <div class="input-group">
+            <label>Tahu (g)</label>
+            <input type="number" id="tahu" inputmode="decimal" placeholder="0" oninput="hitung()">
+        </div>
     </div>
-    
+
     <div class="input-group">
-        <label>Tempe (Gram)</label>
-        <input type="number" id="tempe" inputmode="decimal" placeholder="0" oninput="hitung()">
+        <label>Ikan Kembung (g)</label>
+        <input type="number" id="kembung" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
-    
+
     <div class="input-group">
-        <label>Tahu (Gram)</label>
-        <input type="number" id="tahu" inputmode="decimal" placeholder="0" oninput="hitung()">
+        <label>Ikan Tongkol (g)</label>
+        <input type="number" id="tongkol" inputmode="decimal" placeholder="0" oninput="hitung()">
+    </div>
+
+    <div class="input-group">
+        <label>Daging Sapi (g)</label>
+        <input type="number" id="sapi" inputmode="decimal" placeholder="0" oninput="hitung()">
     </div>
 
     <div class="result-card">
@@ -141,75 +165,74 @@
 
 <script>
     window.onload = function() {
-        const saved = JSON.parse(localStorage.getItem('protein_data'));
+        const saved = JSON.parse(localStorage.getItem('protein_data_v3'));
         if (saved) {
             document.getElementById('ayam').value = saved.ayam || "";
             document.getElementById('telur').value = saved.telur || "";
             document.getElementById('tempe').value = saved.tempe || "";
             document.getElementById('tahu').value = saved.tahu || "";
+            document.getElementById('kembung').value = saved.kembung || "";
+            document.getElementById('tongkol').value = saved.tongkol || "";
+            document.getElementById('sapi').value = saved.sapi || "";
             hitung();
         }
     }
 
     function hitung() {
-        const a = parseFloat(document.getElementById('ayam').value) || 0;
-        const b = parseFloat(document.getElementById('telur').value) || 0;
-        const c = parseFloat(document.getElementById('tempe').value) || 0;
-        const d = parseFloat(document.getElementById('tahu').value) || 0;
+        const getVal = (id) => parseFloat(document.getElementById(id).value) || 0;
 
-        const proteinAyam = a * 0.31;
-        const proteinTelur = b * 6;
-        const proteinTempe = c * 0.19;
-        const proteinTahu = d * 0.08;
+        const a = getVal('ayam');
+        const b = getVal('telur');
+        const c = getVal('tempe');
+        const d = getVal('tahu');
+        const e = getVal('kembung');
+        const f = getVal('tongkol');
+        const g = getVal('sapi');
 
-        const grandTotal = proteinAyam + proteinTelur + proteinTempe + proteinTahu;
+        const totalP = (a * 0.31) + (b * 6) + (c * 0.19) + (d * 0.08) + (e * 0.22) + (f * 0.24) + (g * 0.24);
         
-        document.getElementById('total').innerText = grandTotal.toLocaleString('id-ID', {
+        document.getElementById('total').innerText = totalP.toLocaleString('id-ID', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 1
         });
 
-        const data = { ayam: a, telur: b, tempe: c, tahu: d };
-        localStorage.setItem('protein_data', JSON.stringify(data));
+        const data = { ayam: a, telur: b, tempe: c, tahu: d, kembung: e, tongkol: f, sapi: g };
+        localStorage.setItem('protein_data_v3', JSON.stringify(data));
     }
 
     function resetForm() {
         if(confirm("Reset semua inputan?")) {
             document.querySelectorAll('input').forEach(i => i.value = "");
             document.getElementById('total').innerText = "0";
-            localStorage.removeItem('protein_data');
+            localStorage.removeItem('protein_data_v3');
         }
     }
 
     function shareData() {
-        const a = document.getElementById('ayam').value || 0;
-        const b = document.getElementById('telur').value || 0;
-        const c = document.getElementById('tempe').value || 0;
-        const d = document.getElementById('tahu').value || 0;
+        const getVal = (id) => document.getElementById(id).value || 0;
         const total = document.getElementById('total').innerText;
 
-        // Ambil hari, tanggal, dan waktu sekarang
         const sekarang = new Date();
-        const opsiTanggal = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const opsiWaktu = { hour: '2-digit', minute: '2-digit', hour12: false };
-        
-        const tgl = sekarang.toLocaleDateString('id-ID', opsiTanggal);
-        const wkt = sekarang.toLocaleTimeString('id-ID', opsiWaktu);
+        const tgl = sekarang.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const wkt = sekarang.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+        let rincian = "";
+        if(getVal('ayam') > 0) rincian += `• Ayam: ${getVal('ayam')}g\n`;
+        if(getVal('telur') > 0) rincian += `• Telur: ${getVal('telur')} btr\n`;
+        if(getVal('tempe') > 0) rincian += `• Tempe: ${getVal('tempe')}g\n`;
+        if(getVal('tahu') > 0) rincian += `• Tahu: ${getVal('tahu')}g\n`;
+        if(getVal('kembung') > 0) rincian += `• Ikan Kembung: ${getVal('kembung')}g\n`;
+        if(getVal('tongkol') > 0) rincian += `• Ikan Tongkol: ${getVal('tongkol')}g\n`;
+        if(getVal('sapi') > 0) rincian += `• Daging Sapi: ${getVal('sapi')}g\n`;
 
         const teks = `🍗 *LAPORAN ASUPAN PROTEIN* 🍗\n` +
                      `📅 _${tgl} | ${wkt} WIB_\n\n` +
-                     `• Dada Ayam: ${a} gram\n` +
-                     `• Telur: ${b} butir\n` +
-                     `• Tempe: ${c} gram\n` +
-                     `• Tahu: ${d} gram\n\n` +
-                     `*Total Protein: ${total} gram*\n\n` +
+                     rincian +
+                     `\n*Total Protein: ${total} gram*\n\n` +
                      `Data sudah tercatat sesuai timbangan.`;
 
         if (navigator.share) {
-            navigator.share({
-                title: 'Calc Protein',
-                text: teks
-            }).catch(console.error);
+            navigator.share({ title: 'Calc Protein', text: teks }).catch(console.error);
         } else {
             window.open(`https://wa.me/?text=${encodeURIComponent(teks)}`, '_blank');
         }
