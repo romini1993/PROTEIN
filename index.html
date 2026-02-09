@@ -26,6 +26,14 @@
         .btn-share { background: #22c55e; color: white; }
         .btn-reset { background: #ef4444; color: white; }
         .footer { text-align: center; margin-top: 18px; font-size: 10px; color: #64748b; font-weight: bold; text-transform: uppercase; }
+        
+        /* Style baru buat Histori */
+        .history-section { margin-top: 20px; border-top: 1px solid #334155; padding-top: 10px; }
+        .history-toggle { width: 100%; background: none; border: none; color: var(--accent); font-weight: bold; padding: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .history-content { display: none; padding: 10px 0; max-height: 300px; overflow-y: auto; }
+        .history-item { background: var(--bg); padding: 10px; border-radius: 10px; margin-bottom: 10px; font-size: 13px; border-left: 3px solid var(--accent); }
+        .history-date { font-weight: bold; color: var(--accent); margin-bottom: 5px; display: block; }
+        .btn-history-share { background: #0ea5e9; color: white; width: 100%; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -47,6 +55,15 @@
         <button class="btn btn-reset" onclick="resetForm()">🔄 Reset</button>
         <button class="btn btn-share" onclick="shareData()">📤 Kirim</button>
     </div>
+
+    <div class="history-section">
+        <button class="history-toggle" onclick="toggleHistory()">📜 LIHAT HISTORI <span id="arrow">▼</span></button>
+        <div id="historyContent" class="history-content">
+            <button class="btn btn-history-share" onclick="shareHistory()">📤 Kirim Semua Histori</button>
+            <div id="historyList"></div>
+        </div>
+    </div>
+
     <p class="footer">PROTEIN TRACKER • GACOR EDITION</p>
 </div>
 <script>
@@ -62,6 +79,7 @@
             document.getElementById('sapi').value = saved.sapi || "";
             hitung();
         }
+        renderHistory();
     }
     function hitung() {
         const getVal = (id) => parseFloat(document.getElementById(id).value) || 0;
@@ -82,7 +100,8 @@
         const getV = (id) => document.getElementById(id).value || 0;
         const total = document.getElementById('total').innerText;
         const sekarang = new Date();
-        const tgl = sekarang.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const tglFull = sekarang.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const tglSimpel = sekarang.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
         const wkt = sekarang.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
         
         let rincian = "";
@@ -94,9 +113,59 @@
         if(getV('tongkol') > 0) rincian += `• Ikan Tongkol: ${getV('tongkol')}g\n`;
         if(getV('sapi') > 0) rincian += `• Daging Sapi: ${getV('sapi')}g\n`;
         
-        const teks = `🍗 *LAPORAN ASUPAN PROTEIN* 🍗\n📅 _${tgl} | ${wkt} WIB_\n\n${rincian}\n*Total Protein: ${total} gram*\n\nData sudah tercatat sesuai timbangan.`;
+        if (rincian === "") return alert("Isi dulu bro datanya!");
+
+        const teks = `🍗 *LAPORAN ASUPAN PROTEIN* 🍗\n📅 _${tglFull} | ${wkt} WIB_\n\n${rincian}\n*Total Protein: ${total} gram*\n\nData sudah tercatat sesuai timbangan.`;
         
-        // Langsung buka WhatsApp
+        // Simpan ke Histori
+        saveToHistory(tglSimpel, rincian, total);
+        
+        window.open(`https://wa.me/?text=${encodeURIComponent(teks)}`, '_blank');
+    }
+
+    // FUNGSI HISTORI
+    function saveToHistory(tgl, rincian, total) {
+        let history = JSON.parse(localStorage.getItem('protein_history')) || [];
+        const newItem = { tgl, rincian, total, timestamp: new Date().getTime() };
+        history.unshift(newItem); // Tambah ke paling atas
+        if(history.length > 30) history.pop(); // Batasin 30 data biar gak berat
+        localStorage.setItem('protein_history', JSON.stringify(history));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const history = JSON.parse(localStorage.getItem('protein_history')) || [];
+        const list = document.getElementById('historyList');
+        list.innerHTML = history.map(item => `
+            <div class="history-item">
+                <span class="history-date">${item.tgl}</span>
+                ${item.rincian.replace(/\n/g, '<br>')}
+                <strong>Total: ${item.total}g</strong>
+            </div>
+        `).join('');
+    }
+
+    function toggleHistory() {
+        const content = document.getElementById('historyContent');
+        const arrow = document.getElementById('arrow');
+        if (content.style.display === "block") {
+            content.style.display = "none";
+            arrow.innerText = "▼";
+        } else {
+            content.style.display = "block";
+            arrow.innerText = "▲";
+        }
+    }
+
+    function shareHistory() {
+        const history = JSON.parse(localStorage.getItem('protein_history')) || [];
+        if (history.length === 0) return alert("Belum ada histori bro!");
+        
+        let teks = "📜 *HISTORI ASUPAN PROTEIN* 📜\n\n";
+        history.forEach(item => {
+            teks += `${item.tgl}\n${item.rincian}Total: ${item.total}g\n\n`;
+        });
+        
         window.open(`https://wa.me/?text=${encodeURIComponent(teks)}`, '_blank');
     }
 </script>
